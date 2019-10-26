@@ -19,18 +19,26 @@ colNames = list(data.columns)
 def test_create_dataframe(data, colNames):
     test_match_colNames = list(data.columns)
     test_rows = len(data)
-    test_colDtype = data.dtypes
 
+    # The DataFrame contains only the columns that you specified as the second argument.
     if test_match_colNames == colNames:
-        print("true")
-    elif tes_rows > 10:
-        print("true")
-    #checking that there are no more data types than there are columns (more data types than columns
-    # would indicate rows within a specific column have multiple data types
-    elif len(test_colDtype) == len(data.columns): 
-        print("true")
-    else:
-        print("false")
+        print("Specified columns: true")
+    else: 
+        print("specified columns: false")
+    # There are at least 10 rows in the DataFrame.
+    if test_rows > 10:
+        print("Desired num rows: true")
+    else: 
+        print("desired num rows: false")
+    
+    # The values in each column have the same python type
+    trues = []
+    for column in data.columns:
+        value_type = (data[column].apply(lambda x: type(x)).nunique())
+        trues.append(value_type)
+    if sum(trues) > len(data.columns): print("false") 
+    else: print("true")
 
 #testing function
 test_create_dataframe(data,colNames)
+
